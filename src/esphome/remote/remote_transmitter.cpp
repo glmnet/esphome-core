@@ -47,8 +47,8 @@ std::vector<int32_t>::iterator RemoteTransmitData::end() { return this->data_.en
 void RemoteTransmitData::reset() { this->data_.clear(); }
 
 RemoteTransmitter::RemoteTransmitter(const std::string &name) : Switch(name) {}
-void RemoteTransmitter::set_parent(RemoteTransmitterComponent *parent) { this->parent_ = parent; }
-void RemoteTransmitter::set_repeat(uint32_t send_times, uint32_t send_wait) {
+void BaseRemoteTransmitter::set_parent(RemoteTransmitterComponent *parent) { this->parent_ = parent; }
+void BaseRemoteTransmitter::set_repeat(uint32_t send_times, uint32_t send_wait) {
   this->send_times_ = send_times;
   this->send_wait_ = send_wait;
 }
@@ -62,8 +62,8 @@ void RemoteTransmitter::write_state(bool state) {
   // we must defer sending until next loop execution
   this->parent_->deferred_send(this);
 }
-uint32_t RemoteTransmitter::get_send_times() const { return this->send_times_; }
-uint32_t RemoteTransmitter::get_send_wait() const { return this->send_wait_; }
+uint32_t BaseRemoteTransmitter::get_send_times() const { return this->send_times_; }
+uint32_t BaseRemoteTransmitter::get_send_wait() const { return this->send_wait_; }
 
 RemoteTransmitterComponent::RemoteTransmitterComponent(GPIOPin *pin) : RemoteControlComponentBase(pin) {}
 float RemoteTransmitterComponent::get_setup_priority() const { return setup_priority::HARDWARE_LATE; }

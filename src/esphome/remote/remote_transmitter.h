@@ -45,9 +45,10 @@ class RemoteTransmitData {
 
 class RemoteTransmitterComponent;
 
-class RemoteTransmitter : public switch_::Switch {
+class BaseRemoteTransmitter {
  public:
-  explicit RemoteTransmitter(const std::string &name);
+  explicit BaseRemoteTransmitter();
+  explicit BaseRemoteTransmitter(const std::string &name);
 
   virtual void to_data(RemoteTransmitData *data) = 0;
 
@@ -57,12 +58,24 @@ class RemoteTransmitter : public switch_::Switch {
   uint32_t get_send_times() const;
   uint32_t get_send_wait() const;
 
- protected:
-  void write_state(bool state) override;
 
   RemoteTransmitterComponent *parent_;
   uint32_t send_times_{1};  ///< How many times to send the data
   uint32_t send_wait_{0};   ///< How many microseconds to wait between repeats.
+};
+
+class RemoteTransmitter  /* should be SwitchRemoteTransmitter? */ : public BaseRemoteTransmitter, public switch_::Switch{
+ public:
+  explicit RemoteTransmitter(const std::string &name);
+  
+  protected:
+    void write_state(bool state) override;
+};
+
+class ClimateRemoteTransmitter : public BaseRemoteTransmitter {
+  public:
+   explicit ClimateRemoteTransmitter(const std::string &name);
+
 };
 
 class RemoteTransmitterComponent : public RemoteControlComponentBase, public Component {

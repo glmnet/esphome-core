@@ -51,6 +51,7 @@
 #include "esphome/fan/basic_fan_component.h"
 #include "esphome/fan/fan_state.h"
 #include "esphome/fan/mqtt_fan_component.h"
+#include "esphome/climate/climate_state.h"
 #include "esphome/io/mcp23017.h"
 #include "esphome/io/pcf8574_component.h"
 #include "esphome/light/addressable_light_effect.h"
@@ -1073,6 +1074,23 @@ class Application {
    * @return A FanStruct, use the output field to set your output channels.
    */
   MakeFan make_fan(const std::string &friendly_name);
+#endif
+
+#ifdef USE_CLIMATE
+  /// Register a climate internally.
+  void register_climate(climate::ClimateState *state);
+
+  struct MakeClimate {
+    climate::BasicClimateComponent *output;
+    climate::ClimateState *state;
+  };
+
+  /** Create and connect a Climate with the specified friendly name.
+   *
+   * @param friendly_name The friendly name of the Climate to advertise.
+   * @return A ClimateStruct, use the output field to set your output channels.
+   */
+  MakeClimate make_climate(const std::string &friendly_name);
 #endif
 
   /*    _____ ______      ________ _____
