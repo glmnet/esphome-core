@@ -1199,6 +1199,12 @@ sensor::SDS011Component *Application::make_sds011(UARTComponent *parent) {
 }
 #endif
 
+#ifdef USE_ARDUINO_PORT_EXPANDER
+io::ArduinoPortExpander *Application::make_arduino_port_expander_component(uint8_t address) {
+  return this->register_component(new ArduinoPortExpander(this->i2c_, address));
+}
+#endif
+
 Application App;  // NOLINT
 
 ESPHOME_NAMESPACE_END

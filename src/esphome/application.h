@@ -53,6 +53,7 @@
 #include "esphome/fan/mqtt_fan_component.h"
 #include "esphome/io/mcp23017.h"
 #include "esphome/io/pcf8574_component.h"
+#include "esphome/io/arduino_port_expander.h"
 #include "esphome/light/addressable_light_effect.h"
 #include "esphome/light/fast_led_light_output.h"
 #include "esphome/light/light_color_values.h"
@@ -1132,6 +1133,10 @@ class Application {
 
 #ifdef USE_MCP23017
   io::MCP23017 *make_mcp23017_component(uint8_t address = 0x20);
+#endif
+
+#ifdef USE_ARDUINO_PORT_EXPANDER
+  io::ArduinoPortExpander *make_arduino_port_expander_component(uint8_t address = 0x08);
 #endif
 
   /// Register the component in this Application instance.

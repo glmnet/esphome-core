@@ -16,8 +16,10 @@ static const char *TAG = "output.gpio";
 void GPIOBinaryOutputComponent::write_state(bool state) { this->pin_->digital_write(state); }
 
 void GPIOBinaryOutputComponent::setup() {
+  this->dump_config();
   ESP_LOGCONFIG(TAG, "Setting up GPIO Binary Output...");
   this->turn_off();
+  ESP_LOGCONFIG(TAG, "Setting up GPIO Binary Output. Setup");
   this->pin_->setup();
   this->turn_off();
 }
